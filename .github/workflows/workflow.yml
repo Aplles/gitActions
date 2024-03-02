@@ -1,3 +1,10 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - develop
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -19,6 +26,7 @@ jobs:
           script: |
             cd $DEPLOY_DIR
             git pull
+            $PYTHON_BIN main.py
 
       - name: Запуск скрипта
         run: $PYTHON_BIN $DEPLOY_DIR/main.py
