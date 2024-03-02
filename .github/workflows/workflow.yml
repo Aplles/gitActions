@@ -10,18 +10,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to Server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd /root/gitActions
-            git pull
-            python3 main.py
+      - name: Checkout кода
+        uses: actions/checkout@v2
 
+      - name: Подготовка
+        run: |
+          echo "Setting up deployment environment"
+          echo "::set-env name=DEPLOY_DIR::/root/gitActions"
+          echo "::set-env name=PYTHON_BIN::/usr/bin/python3"
 
+      - name: Git Pull
+        run: git -C $DEPLOY_DIR pull
+
+      - name: Запуск скрипта
+        run: $PYTHON_BIN $DEPLOY_DIR/main.py
+
+#    steps:
+#      - name: Deploy to Server
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.SERVER_HOST }}
+#          username: ${{ secrets.SERVER_USERNAME }}
+#          key: ${{ secrets.SSH_PRIVATE_KEY }}
+#          script: |
+#            cd /root/gitActions
+#            git pull
+#            python3 main.py
 #    - name: Checkout кода
 #      uses: actions/checkout@v2
 #
