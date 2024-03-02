@@ -17,8 +17,9 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /root
-            touch l.py
+            cd /root/gitActions
+            git clone https://github.com/Aplles/gitActions.git
+            python3 main.py
 
 
 #    - name: Checkout кода
